@@ -3,22 +3,22 @@ import { useMutation } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { syncUser } from "../lib/api";
 
-// the best way to imptlement this is by using webhooks
+// the best way to implement this is by using webhooks
 function useUserSync() {
   const { isSignedIn } = useAuth();
   const { user } = useUser();
 
-  const { mutate: synUserMutation, isPending, isSuccess } = useMutation({ mutationFn: syncUser });
+  const { mutate: syncUserMutation, isPending, isSuccess } = useMutation({ mutationFn: syncUser });
 
   useEffect(() => {
     if (isSignedIn && user && !isPending && !isSuccess) {
-      synUserMutation({
-        email: user.primaryEmailAddress.emailAddress,
+      syncUserMutation({
+        email: user.primaryEmailAddress?.emailAddress,
         name: user.fullName || user.firstName,
         imageUrl: user.imageUrl,
       });
     }
-  }, [isSignedIn, user, synUserMutation, isPending, isSuccess]);
+  }, [isSignedIn, user, syncUserMutation, isPending, isSuccess]);
 
   return { isSynced: isSuccess };
 }

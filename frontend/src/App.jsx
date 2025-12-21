@@ -10,10 +10,9 @@ import useAuthReq from "./hooks/useAuthReq";
 import useUserSync from "./hooks/useUserSync";
 
 function App() {
-  const { isClerkLoaded, isSignedIn } = useAuthReq();
+  const { isClerkLoaded } = useAuthReq();
   useUserSync();
 
-  console.log({ isSignedIn });
   if (!isClerkLoaded) return null;
 
   return (
