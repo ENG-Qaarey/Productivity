@@ -1,3 +1,5 @@
+// ...existing code...
+// ...existing code...
 import express from "express";
 import cors from "cors";
 import path from "path";
@@ -9,13 +11,32 @@ import userRoutes from "./routes/userRoutes";
 import productRoutes from "./routes/productRoutes";
 import commentRoutes from "./routes/commentRoutes";
 
+
+
 const app = express();
+
+// GET / => API status
+app.get("/", (req, res) => {
+  res.status(200).json({
+    message: "Productify API is running. Use /api/health or the frontend dev server.",
+    health: "/api/health",
+    apiBase: "/api",
+    frontendDev: ENV.FRONTEND_URL,
+  });
+});
+
+// POST / => hello backend
+app.post("/", (req, res) => {
+  res.type("text/plain").send("hello backend");
+});
 
 app.use(cors({ origin: ENV.FRONTEND_URL, credentials: true }));
 // `credentials: true` allows the frontend to send cookies to the backend so that we can authenticate the user.
 app.use(clerkMiddleware()); // auth obj will be attached to the req
 app.use(express.json()); // parses JSON request bodies.
 app.use(express.urlencoded({ extended: true })); // parses form data (like HTML forms).
+
+// ...existing code...
 
 app.get("/api/health", (req, res) => {
   res.json({
